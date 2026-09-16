@@ -35,7 +35,11 @@ speed, stall clamping, strict configuration/payload validation, passive listener
 document visibility, pause-gate composition, timer uniqueness, repeated starts,
 continuous pointer animation, region payload validation, trip priority and
 cancellation, queued region commands, and removal of every listener on teardown.
-All 16 unit tests and the browser integration check pass.
+All 17 unit tests pass. The full browser integration check passes separately
+with the default cat and with `character: "dog"`, including loading the selected
+local sprite sheet, autonomous movement, region travel, pointer input,
+click-through behavior, reduced motion, and lifecycle cleanup. The dog was also
+visually inspected in the running standard MagicMirror installation.
 
 ## Reproduce
 
@@ -49,6 +53,10 @@ All 16 unit tests and the browser integration check pass.
 5. Run `npm run check` here. With Playwright and its Chromium available in a
    separate development environment, run `node scripts/browser-check.js` here.
    `NODE_PATH` can point to that environment's `node_modules`.
+
+To repeat the dog check, set `character: "dog"` in the disposable installation's
+Neko configuration and run with `EXPECT_CHARACTER=dog`. Set `SCREENSHOT_PATH`
+to a temporary PNG path to avoid overwriting the README's screenshots.
 
 The browser check overwrites the screenshot after successfully observing default
 autonomous movement. Its temporary button is browser DOM only; it does not

@@ -78,6 +78,11 @@ test("module defaults stay in sync; repeated starts dispose old controller", () 
   m.notificationReceived("NEKO_PAUSE"); assert.equal(e.timers.size, 0);
   m.suspend(); m.resume(); assert.equal(e.timers.size, 0);
   m.stop(); assert.equal(e.records.size, 0);
+  for (const [character, sheet] of [["cat", "neko"], ["dog", "dog"], ["invalid", "neko"]]) {
+    m.config = { character }; m.start();
+    assert.equal(m.neko.sprite.style.backgroundImage, `url("assets/${sheet}.svg")`);
+    assert.equal(e.timers.size, 1); m.stop(); assert.equal(e.records.size, 0);
+  }
 });
 
 test("region commands resolve DOM bounds and remain queued behind lifecycle gates", () => {

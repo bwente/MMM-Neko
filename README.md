@@ -16,6 +16,9 @@ Neko in action, wandering over the mirror while the other modules continue displ
 
 Neko takes a nap while the other modules continue displaying normally (scale=2, 64x64 sprite).
 
+Prefer a dog? Set `character: "dog"` to use the classic oneko dog sprites.
+The cat remains the default; only one pet is displayed at a time.
+
 ## Install
 
 Clone this repository into your MagicMirror modules directory:
@@ -48,6 +51,19 @@ then restart MagicMirror:
 Configure only one instance. Do not set a module header. Keep your personal
 MagicMirror configuration outside this repository.
 
+To choose the dog, use:
+
+```js
+{
+  module: "MMM-Neko",
+  position: "fullscreen_above",
+  config: {
+    character: "dog",
+    scale: 2
+  }
+}
+```
+
 ## Configuration
 
 All options go inside `config`. Times are **seconds**, distances are **CSS
@@ -55,6 +71,7 @@ pixels**, and speed is independent of sprite scale.
 
 | Option | Default | Accepted values / meaning |
 | --- | --- | --- |
+| `character` | `"cat"` | `"cat"` or `"dog"`; restart MagicMirror after changing it |
 | `mode` | `"wander"` | `"wander"`, `"mouse"`, `"touch"` |
 | `scale` | `1` | Integer 1–4; scales the original 32 × 32 sprite |
 | `speed` | `32` | 1–200 pixels per second |
@@ -65,6 +82,10 @@ pixels**, and speed is independent of sprite scale.
 | `startPosition` | `{ x: 0.5, y: 0.7 }` | Exactly `x` and `y`, each a number 0–1 within the usable movement area |
 | `inset` | `16` | 0–500 pixels between the sprite box and viewport edges |
 | `reducedMotion` | `"auto"` | `"auto"`, `"always"`, `"never"` |
+
+Both characters use 32 × 32 source frames, so scales 1–4 give sprite boxes of
+32, 64, 96, or 128 pixels per side. The dog uses the same behavior, timings,
+input handling, reduced-motion support, and `NEKO_*` notifications as the cat.
 
 Invalid values fall back individually to defaults; unknown keys are ignored.
 If the idle range is reversed, both idle values return to their defaults.
@@ -186,7 +207,8 @@ physical touch hardware validation is claimed.
 ## License
 
 Original code: [MIT](LICENSE), copyright 2026 Brian Wente. Classic Neko pixels:
-public domain, credited to Masayuki Koba and Tatsuya Kato. See
+public domain, credited to Masayuki Koba and Tatsuya Kato; dog sprites contributed
+by John Lerchey. See
 [third-party provenance and licensing](THIRD_PARTY_NOTICES.md). Asset licensing
 was checked separately from JavaScript licensing.
 

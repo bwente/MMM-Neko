@@ -21,4 +21,5 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 The third-party Neko bitmaps and masks in assets/source and their converted
-sprite sheet assets/neko.svg are public domain; see THIRD_PARTY_NOTICES.md.
+sprite sheets assets/neko.svg and assets/dog.svg are public domain; see
+THIRD_PARTY_NOTICES.md.

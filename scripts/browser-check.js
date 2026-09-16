@@ -17,6 +17,15 @@ const { chromium } = require("playwright");
     await page.goto(process.env.MM_URL || "http://localhost:8097");
     await page.waitForSelector(".mmm-neko-cat");
     await page.waitForFunction(() => typeof MM !== "undefined" && MM.getModules().some((m) => m.name === "MMM-Neko"));
+    const character = process.env.EXPECT_CHARACTER || "cat";
+    assert.ok(["cat", "dog"].includes(character));
+    const sheet = character === "dog" ? "dog" : "neko";
+    assert.equal(await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko").config.character), character);
+    assert.ok((await page.locator(".mmm-neko-cat").evaluate((el) => el.style.backgroundImage)).includes(`assets/${sheet}.svg`));
+    assert.equal(await page.evaluate(async (sheet) => {
+      const img = new Image(); img.src = `/modules/MMM-Neko/assets/${sheet}.svg`;
+      await img.decode(); return img.naturalWidth;
+    }, sheet), 672);
     const state = () => page.evaluate(() => {
       const m = MM.getModules().find((entry) => entry.name === "MMM-Neko");
       return { x: m.neko.cat.x, y: m.neko.cat.y, age: m.neko.cat.age, state: m.neko.cat.state, mode: m.neko.cat.mode, timer: m.neko.timer, size: m.neko.cat.size };

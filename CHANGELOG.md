@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add optional `character: "dog"` with bundled classic oneko dog sprites;
+  `"cat"` remains the default. Both characters share behavior and notifications.
 - Add `NEKO_GO_TO_REGION` to walk to a named standard MagicMirror region, with
   viewport fallback for empty regions, resize handling, and lifecycle-safe queuing.
 

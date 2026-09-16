@@ -11,10 +11,27 @@ test("configuration defaults, ranges, enums, unknown keys and invalid pairs", ()
   assert.deepEqual(validateConfig(bad).config, defaults);
   assert.equal(validateConfig(bad).invalid.length, 11);
   assert.equal(validateConfig({ idleMin: 20, idleMax: 10 }).config.idleMin, 4);
-  const valid = { mode: "touch", scale: 4, speed: 200, idleMin: 1, idleMax: 300,
+  const valid = { character: "dog", mode: "touch", scale: 4, speed: 200, idleMin: 1, idleMax: 300,
     sleepAfter: 5, sleepDuration: 3600, startPosition: { x: 0, y: 1 }, inset: 500, reducedMotion: "never" };
   assert.deepEqual(validateConfig(valid).config, valid);
   assert.deepEqual(validateConfig(valid).invalid, []);
+});
+
+test("character choices validate strictly and share the same autonomous behavior", () => {
+  for (const character of ["cat", "dog"]) {
+    assert.equal(validateConfig({ character }).config.character, character);
+    assert.deepEqual(validateConfig({ character }).invalid, []);
+  }
+  for (const character of ["bird", "constructor", "../dog", ["dog"], null, 1]) {
+    const result = validateConfig({ character });
+    assert.equal(result.config.character, "cat"); assert.deepEqual(result.invalid, ["character"]);
+  }
+  const cat = new Cat({ character: "cat" }, () => 0.25), dog = new Cat({ character: "dog" }, () => 0.25);
+  cat.resize(800, 600); dog.resize(800, 600);
+  for (let i = 0; i < 2400; i++) {
+    cat.step(0.05); dog.step(0.05);
+    assert.deepEqual([cat.x, cat.y, cat.state, cat.frame()], [dog.x, dog.y, dog.state, dog.frame()]);
+  }
 });
 
 test("default cat autonomously idles, scratches, walks, sleeps and wakes without input", () => {
