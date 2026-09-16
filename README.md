@@ -8,10 +8,9 @@ The transparent `fullscreen_above` overlay is click-through, including over the
 cat. Underlying modules keep their mouse, touch, and keyboard behavior. Neko is
 decorative, excluded from the accessibility tree, and never receives focus.
 
-<img src="docs/screenshot.png" alt="MMM-Neko running on standard MagicMirror" width="360">
+<img src="docs/Neko-clip.gif" alt="Animated Neko cat wandering over MagicMirror" width="240">
 
-Actual screenshot from the standard MagicMirror 2.32.0 browser, using
-the scale of 2.
+Neko in action, wandering over the mirror while the other modules continue displaying normally.
 
 <img src="docs/screenshot-sleeping.png" alt="Neko sleeping beside the MagicMirror clock and holiday calendar" width="563">
 
