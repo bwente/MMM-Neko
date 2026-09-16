@@ -5,8 +5,10 @@ const path = require("node:path");
 const { spriteNames, characters } = require("../lib/neko-engine.js");
 const root = path.join(__dirname, "..");
 const read = (name, mask, character) => {
-  const folder = character === "dog" ? "dog" : ".";
-  const suffix = character === "dog" ? "_dog" : "";
+  // Upstream Tora is the striped cat bitmap with the ordinary cat's masks.
+  const sourceCharacter = character === "tora" && mask ? "cat" : character;
+  const folder = sourceCharacter === "cat" ? "." : sourceCharacter;
+  const suffix = sourceCharacter === "cat" ? "" : `_${sourceCharacter}`;
   const source = fs.readFileSync(path.join(root, "assets/source", folder, mask ? "bitmasks" : "bitmaps", `${name}${suffix}${mask ? "_mask" : ""}.xbm`), "utf8");
   const bytes = [...source.matchAll(/0x([0-9a-f]{2})/gi)].map((match) => parseInt(match[1], 16));
   if (bytes.length !== 128) throw new Error(`Unexpected XBM dimensions: ${name}`);

@@ -10,7 +10,7 @@ is a lossless conversion of the selected frames, without redrawing or smoothing.
 - Modified to oneko by **Tatsuya Kato**, 1990.
 - Source mirror: <https://github.com/cskaz/oneko-linux>, commit
   `c0e15088608950688e7ee7a06e4e151d439e22ca`.
-- The cat bitmap/mask directories and selected dog frames are included. No BSD
+- The cat bitmap/mask directories and selected dog and Tora frames are included. No BSD
   daemon, Sakura, Tomoyo, or other alternate skins are included.
 - The original Japanese README is preserved verbatim as
   `assets/source/README.oneko` (ISO-2022-JP). Its final paragraph identifies
@@ -38,6 +38,33 @@ no separate license notice; the preserved Debian copyright record's `Files: *`
 public-domain coverage applies to them. This asset review is separate from the
 MIT license on this module's original code. The dog pixels retain their
 public-domain status.
+
+## Tora striped-cat pixels (public domain)
+
+`assets/source/tora/bitmaps/*_tora.xbm` contains the selected striped-cat frames
+from the same pinned oneko source. Tora is described in Tatsuya Kato's original
+README. Its files fall under the preserved Debian record's general public-domain
+coverage and contain no separate licensing notice. `assets/tora.svg` is a
+lossless conversion using the ordinary cat masks, matching upstream `oneko.c`.
+No duplicate mask files or upstream C code are bundled.
+
+## Sakura and Tomoyo review (not bundled)
+
+The same upstream tree includes Sakura Kinomoto and Tomoyo Daidouji sprites.
+However, upstream `README-NEW` and `README-SUPP` specifically identify the
+characters as CLAMP's copyrighted work and refer to permission for fan works
+at the historical CLAMP SCHOOL WEB CAMPUS site. The original supplement is
+preserved as `assets/source/README-SUPP.oneko` (ISO-2022-JP).
+
+Debian labels the sprite files public domain, but that does not establish that
+the underlying characters are public domain. The historical permission terms
+could not be retrieved during the review on 2026-09-16. Sakura and Tomoyo are
+therefore not distributed or accepted as character settings here pending
+verifiable redistribution terms. They are not covered by this project's MIT
+license. Relevant upstream sources:
+
+- <https://github.com/cskaz/oneko-linux/blob/c0e15088608950688e7ee7a06e4e151d439e22ca/README-NEW>
+- <https://github.com/cskaz/oneko-linux/blob/c0e15088608950688e7ee7a06e4e151d439e22ca/README-SUPP>
 
 ## Code review and reuse decision
 

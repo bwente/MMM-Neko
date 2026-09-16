@@ -15,4 +15,4 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm run check
       - run: npm run build:assets
-      - run: git diff --exit-code -- assets/neko.svg assets/dog.svg
+      - run: git diff --exit-code -- assets/neko.svg assets/dog.svg assets/tora.svg

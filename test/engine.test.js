@@ -18,19 +18,21 @@ test("configuration defaults, ranges, enums, unknown keys and invalid pairs", ()
 });
 
 test("character choices validate strictly and share the same autonomous behavior", () => {
-  for (const character of ["cat", "dog"]) {
+  for (const character of ["cat", "dog", "tora"]) {
     assert.equal(validateConfig({ character }).config.character, character);
     assert.deepEqual(validateConfig({ character }).invalid, []);
   }
-  for (const character of ["bird", "constructor", "../dog", ["dog"], null, 1]) {
+  for (const character of ["bird", "sakura", "tomoyo", "constructor", "../dog", ["dog"], null, 1]) {
     const result = validateConfig({ character });
     assert.equal(result.config.character, "cat"); assert.deepEqual(result.invalid, ["character"]);
   }
-  const cat = new Cat({ character: "cat" }, () => 0.25), dog = new Cat({ character: "dog" }, () => 0.25);
-  cat.resize(800, 600); dog.resize(800, 600);
+  const pets = ["cat", "dog", "tora"].map((character) => new Cat({ character }, () => 0.25));
+  pets.forEach((pet) => pet.resize(800, 600));
   for (let i = 0; i < 2400; i++) {
-    cat.step(0.05); dog.step(0.05);
-    assert.deepEqual([cat.x, cat.y, cat.state, cat.frame()], [dog.x, dog.y, dog.state, dog.frame()]);
+    pets.forEach((pet) => pet.step(0.05));
+    const snapshot = (pet) => [pet.x, pet.y, pet.state, pet.frame()];
+    assert.deepEqual(snapshot(pets[0]), snapshot(pets[1]));
+    assert.deepEqual(snapshot(pets[0]), snapshot(pets[2]));
   }
 });
 

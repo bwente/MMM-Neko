@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add `character: "tora"` for the classic striped cat, using the original cat masks.
 - Add optional `character: "dog"` with bundled classic oneko dog sprites;
   `"cat"` remains the default. Both characters share behavior and notifications.
 - Add `NEKO_GO_TO_REGION` to walk to a named standard MagicMirror region, with

@@ -18,8 +18,8 @@ const { chromium } = require("playwright");
     await page.waitForSelector(".mmm-neko-cat");
     await page.waitForFunction(() => typeof MM !== "undefined" && MM.getModules().some((m) => m.name === "MMM-Neko"));
     const character = process.env.EXPECT_CHARACTER || "cat";
-    assert.ok(["cat", "dog"].includes(character));
-    const sheet = character === "dog" ? "dog" : "neko";
+    assert.ok(["cat", "dog", "tora"].includes(character));
+    const sheet = character === "cat" ? "neko" : character;
     assert.equal(await page.evaluate(() => MM.getModules().find((m) => m.name === "MMM-Neko").config.character), character);
     assert.ok((await page.locator(".mmm-neko-cat").evaluate((el) => el.style.backgroundImage)).includes(`assets/${sheet}.svg`));
     assert.equal(await page.evaluate(async (sheet) => {

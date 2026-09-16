@@ -17,7 +17,8 @@ Neko in action, wandering over the mirror while the other modules continue displ
 Neko takes a nap while the other modules continue displaying normally (scale=2, 64x64 sprite).
 
 Prefer a dog? Set `character: "dog"` to use the classic oneko dog sprites.
-The cat remains the default; only one pet is displayed at a time.
+Use `character: "tora"` for the classic striped cat. The original cat remains
+the default; only one pet is displayed at a time.
 
 ## Install
 
@@ -71,7 +72,7 @@ pixels**, and speed is independent of sprite scale.
 
 | Option | Default | Accepted values / meaning |
 | --- | --- | --- |
-| `character` | `"cat"` | `"cat"` or `"dog"`; restart MagicMirror after changing it |
+| `character` | `"cat"` | `"cat"`, `"dog"`, or `"tora"` (striped cat); restart MagicMirror after changing it |
 | `mode` | `"wander"` | `"wander"`, `"mouse"`, `"touch"` |
 | `scale` | `1` | Integer 1–4; scales the original 32 × 32 sprite |
 | `speed` | `32` | 1–200 pixels per second |
@@ -83,9 +84,9 @@ pixels**, and speed is independent of sprite scale.
 | `inset` | `16` | 0–500 pixels between the sprite box and viewport edges |
 | `reducedMotion` | `"auto"` | `"auto"`, `"always"`, `"never"` |
 
-Both characters use 32 × 32 source frames, so scales 1–4 give sprite boxes of
-32, 64, 96, or 128 pixels per side. The dog uses the same behavior, timings,
-input handling, reduced-motion support, and `NEKO_*` notifications as the cat.
+All characters use 32 × 32 source frames, so scales 1–4 give sprite boxes of
+32, 64, 96, or 128 pixels per side. They share the same behavior, timings,
+input handling, reduced-motion support, and `NEKO_*` notifications.
 
 Invalid values fall back individually to defaults; unknown keys are ignored.
 If the idle range is reversed, both idle values return to their defaults.
