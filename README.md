@@ -10,8 +10,8 @@ decorative, excluded from the accessibility tree, and never receives focus.
 
 ![MMM-Neko running on standard MagicMirror at 1024 × 600](docs/screenshot.png)
 
-Actual screenshot from the standard MagicMirror 2.32.0 browser validation, using
-the default scale of 1. The cat is deliberately small (32 × 32 CSS pixels).
+Actual screenshot from the standard MagicMirror 2.32.0 browser, using
+the scale of 2.
 
 ## Install
 
@@ -174,13 +174,6 @@ configuration, notifications, passive listeners, reduced motion, independent
 pause gates, duplicate-loop prevention, repeated starts, and cleanup.
 GitHub Actions runs these checks on Node 20, 22, and 24 and verifies reproducible
 sprites. No dependencies are needed for these checks.
-
-For the optional real-browser check, run an ordinary MagicMirror server at
-`http://localhost:8097` with `clock`, `helloworld`, and the default Neko entry.
-Make Playwright available in a separate development environment, install its
-Chromium browser, and run `node scripts/browser-check.js` (set `MM_URL` for a
-different local port). It captures `docs/screenshot.png` and tests a temporary
-button under the overlay. It does not modify the MagicMirror configuration.
 
 See [validation details](docs/VALIDATION.md) for the actual tested environment
 and remaining limits. The `requiresVersion` guard is 2.25.0; that older version
