@@ -1,0 +1,18 @@
+{
+  "name": "mmm-neko",
+  "version": "1.0.0",
+  "description": "A local, autonomous Neko cat for MagicMirror²",
+  "author": "Brian Wente",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bwente/MMM-Neko.git"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "build:assets": "node scripts/build-sprites.js",
+    "check": "node --check MMM-Neko.js && node --check lib/neko-engine.js && node --check lib/neko-controller.js && npm test"
+  },
+  "engines": { "node": ">=20" }
+}

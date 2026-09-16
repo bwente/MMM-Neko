@@ -1,0 +1,29 @@
+/* Scope includes MagicMirror's wrapper, which otherwise enables pointer events. */
+.module.MMM-Neko,
+.module.MMM-Neko .module-content,
+.module.MMM-Neko .mmm-neko-overlay,
+.module.MMM-Neko .mmm-neko-cat {
+  pointer-events: none !important;
+}
+
+.module.MMM-Neko {
+  margin: 0;
+  /* Keep viewport coordinates stable during MagicMirror show/hide effects. */
+  transform: none !important;
+}
+
+.mmm-neko-overlay {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: transparent;
+  user-select: none;
+}
+
+.mmm-neko-cat {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+}
