@@ -13,6 +13,10 @@ decorative, excluded from the accessibility tree, and never receives focus.
 Actual screenshot from the standard MagicMirror 2.32.0 browser, using
 the scale of 2.
 
+![Neko sleeping beside the MagicMirror clock and holiday calendar](docs/screenshot-sleeping.png)
+
+Neko takes a nap while the other modules continue displaying normally.
+
 ## Install
 
 Clone this repository into your MagicMirror modules directory:
