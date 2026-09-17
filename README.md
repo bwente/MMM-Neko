@@ -20,7 +20,7 @@ Prefer a dog? Set `character: "dog"` to use the classic oneko dog sprites.
 Use `character: "tora"` for the classic striped cat. The original cat remains
 the default; only one pet is displayed at a time.
 
-## Install
+## Installation
 
 Clone this repository into your MagicMirror modules directory:
 
@@ -34,19 +34,32 @@ folder name must match exactly).
 
 No `npm install`, build step, node helper, CDN, or runtime network request is
 required by this module. Use the Node version required by your MagicMirror
-installation. Development tests require Node 20 or later.
+installation. The unit tests support Node 20 or later.
+
+## Update
+
+```sh
+cd ~/MagicMirror/modules/MMM-Neko
+git pull --ff-only
+```
+
+Restart MagicMirror after updating. If Git reports conflicting local changes,
+resolve those changes before retrying the update. No dependency installation or
+asset build is needed to run the module.
+
+## Configuration
 
 Add this entry to the `modules` array in your own MagicMirror `config/config.js`,
 then restart MagicMirror:
 
-```js
+```javascript
 {
   module: "MMM-Neko",
   position: "fullscreen_above",
   config: {
     mode: "wander"
   }
-}
+},
 ```
 
 Configure only one instance. Do not set a module header. Keep your personal
@@ -54,7 +67,7 @@ MagicMirror configuration outside this repository.
 
 To choose the dog, use:
 
-```js
+```javascript
 {
   module: "MMM-Neko",
   position: "fullscreen_above",
@@ -62,10 +75,10 @@ To choose the dog, use:
     character: "dog",
     scale: 2
   }
-}
+},
 ```
 
-## Configuration
+### Options
 
 All options go inside `config`. Times are **seconds**, distances are **CSS
 pixels**, and speed is independent of sprite scale.
@@ -132,7 +145,7 @@ configured cat; they are commands, with no response notification.
 | `NEKO_SET_MODE` | `{ mode: "wander" }`, `{ mode: "mouse" }`, or `{ mode: "touch" }` | Change behavior and discard the previous target |
 | `NEKO_GO_TO_REGION` | `{ region: "top_right" }` | Walk to a standard MagicMirror region, then resume normal behavior |
 
-```js
+```javascript
 this.sendNotification("NEKO_SET_MODE", { mode: "touch" });
 this.sendNotification("NEKO_PAUSE");
 this.sendNotification("NEKO_RESUME");
@@ -189,16 +202,20 @@ English fallback and key-consistency tests.
 
 ## Development and validation
 
+Use Node 22.14 or later for development and install the linting tools:
+
 ```sh
-npm run check
-npm run build:assets
+npm ci
+node --run check
+node --run build:assets
 ```
 
 Unit tests cover autonomous transitions, sleep/wake, motion speed, bounds,
 configuration, notifications, passive listeners, reduced motion, independent
 pause gates, duplicate-loop prevention, repeated starts, and cleanup.
-GitHub Actions runs these checks on Node 20, 22, and 24 and verifies reproducible
-sprites. No dependencies are needed for these checks.
+GitHub Actions runs linting and tests on Node 22 and 24, verifies reproducible
+sprites, and separately runs the unit tests on Node 20 for runtime compatibility.
+The unit tests alone need no dependencies: `node --test test/*.test.js`.
 
 See [validation details](docs/VALIDATION.md) for the actual tested environment
 and remaining limits. The `requiresVersion` guard is 2.25.0; that older version

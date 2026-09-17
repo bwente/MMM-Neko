@@ -21,7 +21,7 @@ is a lossless conversion of the selected frames, without redrawing or smoothing.
   <https://metadata.ftp-master.debian.org/changelogs/main/o/oneko/oneko_1.2.sakura.6-15_copyright>.
 
 These assets retain their public-domain status; the project's MIT license does
-not replace it. Run `npm run build:assets` to reproduce the bundled sheet from
+not replace it. Run `node --run build:assets` to reproduce the bundled sheet from
 the preserved XBM sources using `scripts/build-sprites.js`.
 
 ## Classic oneko dog pixels (public domain)

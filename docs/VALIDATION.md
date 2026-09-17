@@ -50,8 +50,8 @@ visually inspected in the running standard MagicMirror installation, as was Tora
    `test/fixtures/magicmirror.config.js` to `config/config.js`, and create an empty
    `css/custom.css`. Never replace a personal installation's configuration.
 4. Start `node serveronly` in the MagicMirror directory.
-5. Run `npm run check` here. With Playwright and its Chromium available in a
-   separate development environment, run `node scripts/browser-check.js` here.
+5. Using Node 22.14 or later, run `npm ci`, then `node --run check` here. With Playwright
+   and its Chromium available in a separate development environment, run `node scripts/browser-check.js` here.
    `NODE_PATH` can point to that environment's `node_modules`.
 
 To repeat the dog check, set `character: "dog"` in the disposable installation's

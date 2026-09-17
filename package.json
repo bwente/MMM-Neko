@@ -12,7 +12,24 @@
   "scripts": {
     "test": "node --test test/*.test.js",
     "build:assets": "node scripts/build-sprites.js",
-    "check": "node --check MMM-Neko.js && node --check lib/neko-engine.js && node --check lib/neko-controller.js && npm test"
+    "check": "node --run lint && node --run test",
+    "lint": "eslint ."
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "magicmirror",
+    "magicmirror-module",
+    "neko",
+    "desktop-pet",
+    "pixel-art",
+    "cat",
+    "dog"
+  ],
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.10.0",
+    "globals": "^17.12.0"
+  }
 }
