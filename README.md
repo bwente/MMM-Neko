@@ -78,6 +78,23 @@ To choose the dog, use:
 },
 ```
 
+### Custom artwork
+
+Use a compatible local PNG or SVG sheet without forking the module:
+
+```javascript
+config: {
+  spriteSheet: "sprites/my-pet.png",
+  scale: 2
+}
+```
+
+Create `sprites/` inside `MMM-Neko` and place your artwork there. It is ignored
+by Git. Sheets must contain all 21 action frames in the expected order, in a
+672 × 32 image. A missing or incorrectly sized sheet leaves the default cat
+visible. See the [custom sprite guide](docs/CUSTOM_SPRITES.md) for setup,
+frame order, fallback behavior, and sharing requirements.
+
 ### Options
 
 All options go inside `config`. Times are **seconds**, distances are **CSS
@@ -86,6 +103,7 @@ pixels**, and speed is independent of sprite scale.
 | Option | Default | Accepted values / meaning |
 | --- | --- | --- |
 | `character` | `"cat"` | `"cat"`, `"dog"`, or `"tora"` (striped cat); restart MagicMirror after changing it |
+| `spriteSheet` | `""` | Optional local `sprites/*.png` or `sprites/*.svg` sheet; overrides `character`; see the guide |
 | `mode` | `"wander"` | `"wander"`, `"mouse"`, `"touch"` |
 | `scale` | `1` | Integer 1–4; scales the original 32 × 32 sprite |
 | `speed` | `32` | 1–200 pixels per second |

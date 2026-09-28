@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add local custom PNG/SVG sheets through `spriteSheet`, with dimension checks,
+  bundled-cat fallback, update-safe ignored artwork storage, and an artist guide.
+
 - Improve module-list metadata, MIT license detection, and installation/update documentation.
 - Add ESLint, Dependabot, a code of conduct, and updated GitHub Actions checks.
 - Add `character: "tora"` for the classic striped cat, using the original cat masks.

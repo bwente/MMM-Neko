@@ -13,14 +13,16 @@ function environment() {
     removeEventListener(name, fn) { for (const r of records) if (r.target === this && r.name === name && r.fn === fn) records.delete(r); }
     emit(name, event = {}) { for (const r of [...records]) if (r.target === this && r.name === name) r.fn(event); }
   }
+  const images = [];
+  class Image extends Target { constructor() { super(); images.push(this); } }
   const env = new Target(), doc = new Target(), media = new Target(), timers = new Map();
   let time = 0, next = 0;
   doc.querySelector = () => null;
   doc.createElement = () => ({ style: {}, attrs: {}, children: [], setAttribute(k, v) { this.attrs[k] = v; }, appendChild(c) { this.children.push(c); }, remove() { this.removed = true; } });
-  Object.assign(env, { document: doc, innerWidth: 1024, innerHeight: 600, performance: { now: () => time },
+  Object.assign(env, { Image, document: doc, innerWidth: 1024, innerHeight: 600, performance: { now: () => time },
     matchMedia: () => media, setTimeout: (fn) => { timers.set(++next, fn); return next; }, clearTimeout: (id) => timers.delete(id) });
   const tick = (ms = 50) => { time += ms; const pending = [...timers.values()]; timers.clear(); pending.forEach((fn) => fn()); };
-  return { env, doc, media, timers, records, tick };
+  return { env, doc, media, timers, records, tick, images };
 }
 
 test("pause gates compose and every resume has exactly one timer", () => {
@@ -68,7 +70,7 @@ test("module defaults stay in sync; repeated starts dispose old controller", () 
   const e = environment();
   vm.runInNewContext(fs.readFileSync(require.resolve("../MMM-Neko.js"), "utf8"), {
     Module: { register: (name, value) => { assert.equal(name, "MMM-Neko"); definition = value; } },
-    NekoEngine: Engine, NekoController: class extends Controller { constructor(config, url) { super(config, url, e.env); } }
+    window: e.env, NekoEngine: Engine, NekoController: class extends Controller { constructor(config, url, env, customUrl) { super(config, url, e.env, customUrl); } }
   });
   assert.deepEqual(JSON.parse(JSON.stringify(definition.defaults)), Engine.defaults);
   const m = { ...definition, config: {}, file: (file) => file };
@@ -83,6 +85,16 @@ test("module defaults stay in sync; repeated starts dispose old controller", () 
     assert.equal(m.neko.sprite.style.backgroundImage, `url("assets/${sheet}.svg")`);
     assert.equal(e.timers.size, 1); m.stop(); assert.equal(e.records.size, 0);
   }
+  m.config = { character: "dog", spriteSheet: "sprites/pet.png" }; m.start();
+  assert.equal(m.neko.sprite.style.backgroundImage, 'url("assets/neko.svg")');
+  const img = e.images.at(-1);
+  assert.equal(img.src, "sprites/pet.png");
+  Object.assign(img, { naturalWidth: 672, naturalHeight: 32 }); img.emit("load");
+  assert.equal(m.neko.sprite.style.backgroundImage, 'url("sprites/pet.png")');
+  m.start(); assert.equal(e.timers.size, 1);
+  img.emit("load");
+  assert.equal(m.neko.sprite.style.backgroundImage, 'url("assets/neko.svg")');
+  m.stop(); assert.equal(e.records.size, 0);
 });
 
 test("region commands resolve DOM bounds and remain queued behind lifecycle gates", () => {
@@ -105,4 +117,24 @@ test("region commands resolve DOM bounds and remain queued behind lifecycle gate
   assert.equal(c.receive("NEKO_GO_TO_REGION", { region: "body" }), false);
   assert.deepEqual(c.cat.target, target);
   c.destroy(); assert.equal(e.records.size, 0);
+});
+
+
+test("custom sheets load only at the required dimensions and cannot revive destroyed controllers", () => {
+  for (const [width, height, event, accepted] of [[672, 32, "load", true], [640, 32, "load", false], [672, 64, "load", false], [0, 0, "error", false]]) {
+    const e = environment(), c = new Controller({}, "cat.svg", e.env, "sprites/pet.png");
+    const img = e.images[0];
+    assert.equal(img.src, "sprites/pet.png");
+    assert.equal(c.sprite.style.backgroundImage, 'url("cat.svg")');
+    c.receive("NEKO_PAUSE");
+    Object.assign(img, { naturalWidth: width, naturalHeight: height }); img.emit(event);
+    assert.equal(c.sprite.style.backgroundImage, accepted ? 'url("sprites/pet.png")' : 'url("cat.svg")');
+    assert.equal(e.timers.size, 0);
+    c.destroy(); assert.equal(e.records.size, 0);
+  }
+  const e = environment(), c = new Controller({}, "cat.svg", e.env, "sprites/pet.svg");
+  const img = e.images[0]; c.destroy();
+  Object.assign(img, { naturalWidth: 672, naturalHeight: 32 }); img.emit("load");
+  assert.equal(c.sprite.style.backgroundImage, 'url("cat.svg")');
+  assert.equal(e.timers.size, 0);
 });

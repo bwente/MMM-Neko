@@ -71,3 +71,20 @@ other than 2.32.0 have not been tested. Touch validation used Chromium emulation
 Document visibility cleanup is covered by deterministic lifecycle tests, not a
 physical kiosk sleep/wake cycle. GitHub Actions results are available in the
 repository's Actions tab and are separate from the local runtime validation above.
+
+
+## Custom sprite support — 2026-09-27
+
+All 19 unit tests pass, along with lint and bundled asset regeneration.
+Custom path validation, image load/error and dimension fallback, paused loading,
+and teardown during a pending image load are covered by automated unit tests.
+These use a simulated image object; the earlier browser results above describe
+built-in characters and do not establish custom PNG/SVG browser validation.
+
+The mirror owner subsequently installed the custom-sheet test on their existing
+MagicMirror installation and confirmed the custom character running and sleeping. Supplied
+screenshots show the color PNG rendered with transparency, including a sleeping
+pose. This is owner-reported live validation, not an automated browser check.
+The mirror's MagicMirror/browser versions were not captured. Custom SVG loading,
+every directional pose, and fallback behavior on that device remain unverified.
+The third-party test artwork and household screenshots are not bundled.

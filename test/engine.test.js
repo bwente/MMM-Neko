@@ -11,7 +11,7 @@ test("configuration defaults, ranges, enums, unknown keys and invalid pairs", ()
   assert.deepEqual(validateConfig(bad).config, defaults);
   assert.equal(validateConfig(bad).invalid.length, 11);
   assert.equal(validateConfig({ idleMin: 20, idleMax: 10 }).config.idleMin, 4);
-  const valid = { character: "dog", mode: "touch", scale: 4, speed: 200, idleMin: 1, idleMax: 300,
+  const valid = { spriteSheet: "", character: "dog", mode: "touch", scale: 4, speed: 200, idleMin: 1, idleMax: 300,
     sleepAfter: 5, sleepDuration: 3600, startPosition: { x: 0, y: 1 }, inset: 500, reducedMotion: "never" };
   assert.deepEqual(validateConfig(valid).config, valid);
   assert.deepEqual(validateConfig(valid).invalid, []);
@@ -138,4 +138,16 @@ test("region rectangle targets clamp to the viewport and empty regions use ancho
   cat.goToRegion("bottom_right", { left: 0, top: 0, width: 0, height: 0 });
   assert.deepEqual(cat.target, { x: 752, y: 552 });
   const target = { ...cat.target }; assert.equal(cat.goToRegion("invalid"), false); assert.deepEqual(cat.target, target);
+});
+
+
+test("custom sheets accept only local sprite paths", () => {
+  for (const spriteSheet of ["", "sprites/my-pet.png", "sprites/my_pet/sheet-1.svg"]) {
+    assert.deepEqual(validateConfig({ spriteSheet }).invalid, []);
+    assert.equal(validateConfig({ spriteSheet }).config.spriteSheet, spriteSheet);
+  }
+  for (const spriteSheet of [null, 1, {}, "https://example.com/a.png", "/sprites/a.png", "sprites/../a.png", "sprites/%2e%2e/a.png", "sprites/a.png?x=1", 'sprites/a".png', "sprites/a.gif"]) {
+    assert.equal(validateConfig({ spriteSheet }).config.spriteSheet, "");
+    assert.deepEqual(validateConfig({ spriteSheet }).invalid, ["spriteSheet"]);
+  }
 });
