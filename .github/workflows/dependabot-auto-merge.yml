@@ -1,0 +1,37 @@
+name: Dependabot auto-merge
+
+on:
+  workflow_run:
+    workflows: [Checks]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: dependabot-auto-merge
+
+jobs:
+  enable-auto-merge:
+    if: >-
+      github.repository == 'bwente/MMM-Neko' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event.workflow_run.event == 'pull_request' &&
+        github.event.workflow_run.conclusion == 'success'))
+    runs-on: ubuntu-latest
+    steps:
+      # No checkout: never execute pull request code with this write token.
+      # Required branch checks enforce readiness, including newer PR commits.
+      - name: Enable auto-merge for open Dependabot updates
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh api --paginate "repos/$GH_REPO/pulls?state=open&base=main&per_page=100" \
+            --jq '.[] | select(.user.login == "dependabot[bot]" and .draft == false and .head.repo.full_name == .base.repo.full_name) | [.number, .head.sha] | @tsv' \
+            > "$RUNNER_TEMP/dependabot-prs.tsv"
+          while IFS=$'\t' read -r number sha; do
+            gh pr merge "$number" --repo "$GH_REPO" --auto --squash --match-head-commit "$sha"
+          done < "$RUNNER_TEMP/dependabot-prs.tsv"
